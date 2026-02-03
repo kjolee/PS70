@@ -103,4 +103,10 @@ code {
 
 #aboutme {
   padding: 20px;
+
+  .lacey-section {
+  display: flex;
+  align-items: center;   /* vertically center text with image */
+  gap: 20px;             /* space between image and text */
+}
 }
