@@ -1,5 +1,5 @@
 body {
-    font: 20px American Typewriter, serif;
+    font: 20px 'Varela Round', sans-serif;
     line-height: 1.8;
     color: #b33b72;
     background-color: #EEE7E8;
@@ -10,7 +10,7 @@ body {
   padding: 2% 10%;;
 }
 
-p {font-size: 16px;}
+p {font-size: 20px;}
 .margin {margin-bottom: 30px;}
 
 a {
@@ -62,7 +62,7 @@ nav {
   border-radius: 40px;
   padding: 10px 30px;
   background-color: #b33b72;
-  color: #000000;
+  color: #EEE7E8;"
   transition: 0.3s;
 }
 
