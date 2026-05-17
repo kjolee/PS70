@@ -4,6 +4,7 @@
 <title>Week 7 </title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="../style.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
 
 
 <nav class="navbar navbar-expand-sm navbar-dark" style=" color: #EEE7E8;">
@@ -23,11 +24,134 @@
 <div class="textcontainer">
 <p class="margin">   </p>
 
-<h3>Week 7: Electronic Outputs</h3>
+<h3><a href="https://nathanmelenbrink.github.io/ps70/08_output/index.html" target="_blank" style="color:#b33b72;">Week 7:</a> Electronic Output Devices</h3>
+<hr style="border: 1px solid #b33b72;">
+
+On Tuesday, we learned how to use an oscilloscope, which graphs the electrical signal from a device as it varies over time. Then, we were shown different types of output devices, such as various LEDs and LED displays, buzzers, and speakers. My table had the i2s speaker/amplifier, and we managed to get it to play the sound file saying "hello"! Also not relevant to class, but Lynn brought me matcha cookies on this day YAYYYYYYYYYYYYYYYYY!
+<br><br>
+
+<div style="display:flex; justify-content:center; align-items:flex-start; gap:20px;">
+
+  <figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="lynn.JPG" style="height:30vh; width:auto;">
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Lynn is the GOAT (Greatest Of All Time)</figcaption>
+</figure>
+
+
+</div>
+
+On Thursday, we learned about different types of motors. This would come in handy for the machine week, where we would be making a drawing machine. 
+<br><br> During lab, we finally finished using the Useless box (hooray!) and discussed what we wanted to make for our final project MVP with Kassia. 
+
+<div style="display:flex; justify-content:center; align-items:flex-start; gap:20px;">
+
+  <figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <video style="height:30vh; width:auto;" controls>
+        <source src="useless.MOV" type="video/mp4">
+    </video>
+    <figcaption style="font-size:15px; text-align:center;">A very useless box.</figcaption>
+</figure>
+
+</div>
+
+<hr style="border: 1px solid #b33b72;">
+<h4>Assignment: Minimum Viable Product </h4>
+
+This week's assignment was BIG! We were tasked to make a serious attempt at the most challenging/intimidating aspect of our project which included at least one input and output device and a microcontroller program that integrated the input and output. We were also tasked to use an oscilloscope to discover the time domain at which the output device was operating at. 
+<br><br> At this point in time, I wasn't feeling very confident about my final project idea. I originally had wanted to make a bird feeder that had a motion-activated camera, but I felt that this idea wasn't very original because I had been inspired by this exact product which was already being manufactured by the company BirdBuddy, as well as other companies. Basically, I thought that I might just be ripping off a well-established idea. So thus, I thought maybe it would be cooler to modify the idea, and instead of the camera being attached to the bird feeder, only a motion sensor would be attached to it and when activated, send a signal to a microcontroller. This microcontroller would then activate motors that would turn on my physical digital camera (which is a Fujifilm XT4 with a 70-300mm lens) and physically take a picture on it. The camera would be aimed at the bird feeder, but be inside my house (with the bird feeder outside the house). Basically, I wanted to take advantage of the fact that I already had a very high quality picture that I used to take pictures of birds and be able to use its capabilities even when I wasn't physically there. 
+<div style="display:flex; justify-content:center; align-items:flex-start; gap:20px;">
+
+  <figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex; gap:20px;">
+      <img src="cam1.JPG" style="height:30vh; width:auto;">
+      <img src="cam2.JPG" style="height:30vh; width:auto;">
+      <img src="cam1.png" style="height:30vh; width:auto;">
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">My trusty Fuji XT4 that I bring birding!</figcaption>
+  </figure>
+
+</div>
+
+And so I started. And unfortunately, I took almost ZERO photos of this process, but I will describe it. I first measured my camera so that I could figure out how big the levers that would be moving the on-off switch and pressing the camera button should be. I would be attaching these levers to servo motors. I was inspired by the useless box as I feel that the movements of the box and my idea were pretty similar. I also wanted to make housing for the motors. Then, I set about designing the levers in fusion. Making the lever for the camera button was simple, but the on-off switch was more complicated because it had a weird design where it was like.. tiered? I am unsure how to describe this. But eventually, I figured it out! I also made sure to include a hole in both levers so that I could screw the them onto the servo motors and make sure they didn't slip. Then, I exported the stl, uploaded it into Prusa, exported the gcode after it was sliced, uploaded the gcode to an SD card, put the SD card into one of the 3D printers, and started printing! The first iteration was not good, because the on-off switch had a part where your finger would typically rest to turn it on that jutted out, so I had to edit my design around this extra portion. The reprint worked great though.
+
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex; gap:20px;">
+      <img src="measure.JPG" style="height:30vh; width:auto;">
+     
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Measuring my camera</figcaption>
+  </figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex; gap:20px;">
+      <img src="onoff.JPG" style="height:30vh; width:auto;">
+     
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Can you see the tiers on the on-off switch?</figcaption>
+  </figure>
+
+</div>
+
+
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+  <figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <iframe src="https://college1093.autodesk360.com/shares/public/SH28cd1QT2badd0ea72b11168b93e4e91ae2?mode=embed" width="640" height="480" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  frameborder="0" style="height:30vh; width:auto;"></iframe>
+    <figcaption style="font-size:15px; text-align:center;">My Fusion model of the on-off lever and camera lever!</figcaption>
+  </figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex; gap:20px;">
+      <img src="levers.JPG" style="height:30vh; width:auto;">
+     
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">My finished 3d prints attached to the servo motors</figcaption>
+  </figure>
+
+</div>
+
+Unfortunately, I didn't end up having time to make the housing. This was a big OOPS on my part, because without the housing, the motors didn't really work properly the way I wanted because.. something physics-related that I don't remember. But I thought the movement was still correct. Anyways, we had to present our MVPS to Nathan's design colleagues, and I was SO nervous! I didn't feel very confident with what I had accomplished. But when the time came, I ended up receiving helpful feedback on my next few steps, which would be to create housing for the motor and figure out how to wirelessly connect a motion sensor to a microcontoller by using WiFi. I also felt great about my idea in general, so safe to safe, the presentation ended well!
+
+<hr style="border: 1px solid #b33b72;">
+
+Sooooo.. I actually didn't end up going through with this project idea. See "Final Project" for what I actually did! (Spoiler alert it's just my original bird feeder idea) Still, I used the oscilloscope (with the help of Bobby!) to test the time domain of the output device of that project. As Bobby explained, the oscilloscope showed that my output was operating at one hundred thousand bits per seconds and happening on the order of microseconds. You can see it in the pictures below. 
+
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center; gap:20px">
+    <div style="display:flex; gap:20px;">
+      <img src="o1.JPG" style="height:30vh; width:auto;">
+       <img src="o2.JPG" style="height:30vh; width:auto;">
+     
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Oscilloscope!</figcaption>
+  </figure>
+
+</div>
+
+
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center; gap:20px">
+    <div style="display:flex; gap:20px;">
+      
+       <img src="o3.JPG" style="height:30vh; width:auto;">
+     
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Here you can see that it takes a total of 10.16 microseconds for a period of the output.</figcaption>
+  </figure>
+
+</div>
 
 
 
-<h4>Assignment: Minimum Viable Product for Final Project</h4>
+
+
+
 
 
 </div>

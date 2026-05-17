@@ -39,48 +39,118 @@ On Tuesday, we downloaded the Prusa Slicer Software and configured it for the 3D
 </figure>
 </div>
 During lab, we learned how to use the Revopoint scanner, which is a photogrammetry device, to scan an object and create a 3D mesh. Then, we practiced some coding. (It didn't go very well for Lynn and I)
-<br><br>
+
+<hr style="border: 1px solid #b33b72;">
+<h4>Assignment 1: Design and 3D print a small object  </h4>
+The first assignment of this week was to design and print a small object that could not be easily made by subtractive methods, which would be laser cutting, etc. I decided to design a little Minecraft creeper because my friend from home, Zuni, really likes Minecraft, and I was thinking of her. 
 <div style="display:flex; justify-content:center; align-items:flex-start; gap:20px;">
 
   <figure style="display:inline-flex; flex-direction:column; align-items:center;">
-    <video style="height:30vh; width:auto;" controls>
-        <source src="lab1.MOV" type="video/mp4">
-    </video>
-    <figcaption style="font-size:15px; text-align:center;">Blinking LED</figcaption>
-</figure>
-
-<figure style="display:inline-flex; flex-direction:column; align-items:center;">
     <div style="display:flex;">
-      <img src="lab2.JPG" style="height:30vh; width:auto;">
+      <img src="zuni1.JPG" style="height:30vh; width:auto;">
+      <img src="zuni2.JPG" style="height:30vh; width:auto;">
     </div>
-    <figcaption style="font-size:15px; text-align:center;">Button Control</figcaption>
+    <figcaption style="font-size:15px; text-align:center;">Zuni loves creepers. We baked creeper cookies, and I got her a creeper plush.</figcaption>
 </figure>
-
-<figure style="display:inline-flex; flex-direction:column; align-items:center;">
-    <video style="height:30vh; width:auto;" controls>
-        <source src="lab3.MOV" type="video/mp4">
-    </video>
-    <figcaption style="font-size:15px; text-align:center;">Potentiometer
-Control</figcaption>
-</figure>
-
 
 </div>
-<hr style="border: 1px solid #b33b72;">
-<h4>Assignment: Program an Arduino board to do something </h4>
-The assignment of this week was to program an Arduino board to do something. I wasn't feeling very creative, so I wanted to play around and see if the microcontroller could receive my text input to control an LED. My idea was that I could type a number into the Serial input, and the LED would flash for that certian number of seconds. This definitely was as not complicated as it could've been, but it was still pretty fun to figure out the coding!
+For the modeling portion, I actually was able to find dimensions of the creeper online, which was very helpful! I scaled it up by 1.5x so that my figure wouldn't be THAT small. In Fusion, I mainly just made sketches of various squares and rectangles and extruded them to be the height that I wanted. 
 <br></br>
 <div style="display:flex; justify-content:center; align-items:flex-start; gap:20px;">
 
   <figure style="display:inline-flex; flex-direction:column; align-items:center;">
-    <video style="height:30vh; width:auto;" controls>
-        <source src="ya.MOV" type="video/mp4">
-    </video>
-    <figcaption style="font-size:15px; text-align:center;">Here is a video of my assignment!</figcaption>
+    <div style="display:flex;">
+      <img src="creeper.png" style="height:30vh; width:auto;">
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">A Minecraft Creeper</figcaption>
+</figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="dimension.png" style="height:30vh; width:auto;">
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Someone on Reddit posted the creeper dimensions</figcaption>
 </figure>
 
 </div>
 
+
+Then, I had trouble figuring out how to attach the legs to the body because I wanted them to be diagonally-angled to make it look like the creeper was walking. Bobby helped me out by showing me the Align tool on Fusion! He also told me to make sure that all the parts were connected better so that they wouldn't be super flimsy after printing (hence why the perpendicular legs have a little extra block bethind them). After I finished the model, I exported it as an stl file, imported it to Prusa, sliced it and exported the gcode file. 
+<br></br>
+
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+  <figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <iframe src="https://college1093.autodesk360.com/shares/public/SH28cd1QT2badd0ea72b37dc8111f9fc1310?mode=embed" width="640" height="480" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  frameborder="0" style="height:30vh; width:auto;"></iframe>
+    <figcaption style="font-size:15px; text-align:center;">My Fusion model of the creeper!</figcaption>
+  </figure>
+<figure style="display:inline-flex; flex-direction:column; align-items:center;gap:20px;">
+  <a id="btn" href="creeper aw man.stl" download>Download the stl file
+  </a>
+  <a id="btn" href="creeper aw man_0.15mm_PLA_MK3S_26m.gcode" download>Download the gcode file
+  </a>
+  </figure>
+
+</div>
+
+After exporting the gcode file, I transferred it onto an SD card and connected the SD card to one of the 3D printers. Then, I printed the creeper! It took around 30 minutes as it was quite a small print. When the creeper was finished, it ended up getting a little messed up, but it kind of looks like it survived an explosion (so I guess it's more realistic?)
+
+<div style="display:flex; justify-content:center; align-items:flex-start; gap:20px;">
+
+  <figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="creeper1.JPG" style="height:30vh; width:auto;">
+      <img src="creeper2.JPG" style="height:30vh; width:auto;">
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Creeper! Aw man!</figcaption>
+</figure>
+
+</div>
+
+At the very least, at least Zuni was excited about the finished product!
+
+<div style="display:flex; justify-content:center; align-items:flex-start; gap:20px;">
+
+  <figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="text.png" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">My texts with Zuni</figcaption>
+</figure>
+
+</div>
+
+<hr style="border: 1px solid #b33b72;">
+<h4>Assignment 2: Scan something using a photogrammetry application  </h4>
+The second assignment of this week was to scan something using a photogrammetry or LIDAR application. Since we had learned how to use Revopoint, I decided to try out 
+iOS 3D scanning apps because I wanted to try something new and also find a method to scanning 3D objects if I couldn't access the Revopoint in the PS70 classroom. I found this helpful <a href="https://eckay.github.io/phys_s-12/05_3Ddesign/index.html" target="_blank" style="color:#b33b72;">comparison chart </a>from a previous student, Emma Kay, who had taken PS70 and, based on her review of what worked best for her, decided to use the app "KIRI Engine". I wanted to 3D scan my new mug, and the app worked surprisingly well; I took many photos of the mug and waited for it to process and compile a 3D mesh. The completed mesh was indeed lumpy as Emma had described, but it was pretty cool!
+
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="mug.JPG" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">My awesome mug!</figcaption>
+</figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="ya.jpeg" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Here is what the scanned mug looks like on the KIRI Engine app</figcaption>
+</figure>
+
+  <figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <iframe src="https://college1093.autodesk360.com/shares/public/SH28cd1QT2badd0ea72b10debb4541a08644?mode=embed" width="640" height="480" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  frameborder="0" style="height:30vh; width:auto;"></iframe>
+    <figcaption style="font-size:15px; text-align:center;">Here is what the mesh looks like when it is uploaded to Fusion</figcaption>
+  </figure>
+
+
+</div>
 
 </div>
 </xmp>
