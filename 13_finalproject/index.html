@@ -530,10 +530,11 @@ void loop() {
 
 Then, I implemented it into my original code! It worked perfectly! This part was done now.
 
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
 <figure>
 <pre style="background-color:#b33b72; color:#EEE7E8; padding:20px; 
             border-radius:8px; overflow-y:scroll; height:300px; 
-            font-size:15px;margin-bottom:0;">
+            font-size:15px;margin-bottom:0; white-space:pre-wrap;">
 <code style="background-color:transparent;">/*********
   Rui Santos & Sara Santos - Random Nerd Tutorials
   Modified to use VL53L0X ToF sensor (Pololu library) instead of PIR
@@ -869,6 +870,15 @@ void file_operation_callback(File &file, const char *filename, file_operating_mo
         Here is the final code for the ToF to ESP32-CAM to Firebase!
     </figcaption>
 </figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="tof.JPG" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">The final circuitry on the breadboard</figcaption>
+</figure>
+</div>
 
 </details>
 
@@ -1212,14 +1222,253 @@ Anyways, so all the coding was done after this part! And it worked great and jus
         <h4>Hardware ▼</h4>
     </summary>
 
-    Sooo
+    Sooooooo! Now I had all of my software done. The ESP32-CAM would pick up the signal from the distance sensor for when there was a bird in front of it, take a picture, and send it to Firebase storage. Then, the Firebase functions would run so that each new picture added would be scanned for birds and identify them; if there were no birds, the picture would be deleted. Then, the bird species would be saved and at the end of the day, they would all be compiled in an email and sent to my personal email. But now, I had to design the actual bird feeder itself! 
+
+    <br></br>
+
+    My first step was consolidating my ESP32-CAM, ToF sensor, and power bank by soldering it all onto a small solderable breadboard. I also wanted to position the sensor so that it would be directly below the camera. Technically speaking, it was an easy process, but tedious for me because I am bad at soldering. In fact, after my first iteration of soldering it all together, the little machine suddenly didn't work... Nathan and I were boggled, so he just told me to solder it a little better. And HOORAY! It worked after I put more solder and made the connections better (??) Also yes, I taped the breadboard to the power bank. Yes, I could have definitely found a better way to secure it. Am I proud of it? No. Do I regret my choice? Not really. It's beautiufl and weird in its own way.
+<br></br>
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="don.JPG" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Here is the finished consolidation! As you can see, the sensor is positioned below the camera, and the breadboard is taped onto the power bank. Also, the micro USB connector is connected to the ESP32-CAM with longer wires so that it can be easily plugged and unplugged from the power bank</figcaption>
+</figure>
+
+</div>
+
+Now, for the rest of it. Not going to lie, I did this ALL the day before the final project fair. #PROCRASTINATION at its finest. But I got it done! 
+<br></br>
+First, I wanted to make a box that the ESP32-CAM + sensor + power bank could be placed into so that it could be easily removed from the feeder for charging the power bank. I wanted this box to have an opening in the front for the sensor and camera and another opening in the back so that the power bank could be charged by a USB-C cord. I measured everything out, just designed the sides (with teeth for better gluing strength) on Fusion, laser cut it out of 3mm cast acrylic, and super glued the box together. For the pane on the back, I ended up taping it because I wanted it to be able to open in case I had to take the SP32-CAM + sensor + power bank out easily, and the hinges were being weird.
+<br></br>
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="sketch1.png" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">The sketch for this inside box. I ended up changing the dimensions a bit, but this was the general vibe.</figcaption>
+</figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="inside.png" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">The Fusion sketch</figcaption>
+</figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;gap:20px;">
+  <a id="btn" href="insidebox.dxf" download>Download the dxf file
+  </a>
+  
+  </figure>
+
+</div>
+
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="b.JPG" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Front side</figcaption>
+</figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="c.JPG" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Back side</figcaption>
+</figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="a.JPG" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Selfie!</figcaption>
+</figure>
+
+
+
+</div>
+
+Alrighty, now I had to make the bird feeder. I wanted it to consist of two boxes: one removable box that the bird seed and inside box went into, and one outer wooden box. I wanted this first removable box to be deconstructable and made out of acrylic so it would be easy to take apart and wash. I also wanted it to have a section that the ESP32-CAM + sensor + power bank box could go into. After much consideration, this is the final design I came up with: it had four removable acrylic sides (designed in Fusion, cut out by laser cutter), enabled by 3D-printed corners that secured them in place but could be removed. The bottom panel was glued to the bottom four corners. Thus, you could remove the top four corners and wash the four sides and the bottom easily! As for the part that the ESP32-CAM + sensor + power bank box sat in, this was part of the front side of this acrylic box. That was also designed in Fusion and cut out in the laser cutter and then was super glued on. This proved fatal when I finally brought the bird feeder home and dropped it by accident, so a future iteration would definitely have it all be attached a better way. 
+
+<br></br>
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="la.png" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">The acrylic panes for the inside bird feeder</figcaption>
+</figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;gap:20px;">
+  <a id="btn" href="panes.dxf" download>Download the dxf file
+  </a>
+  
+  </figure>
+
+</div>
+
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="bottom.png" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">The bottom of the inside bird feeder</figcaption>
+</figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;gap:20px;">
+  <a id="btn" href="bottombox.dxf" download>Download the dxf file
+  </a>
+  
+  </figure>
+
+</div>
+
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="lo.png" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">The sides to secure the ESP32-CAM + sensor + power bank box to the front of the inside bird feeder</figcaption>
+</figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;gap:20px;">
+  <a id="btn" href="insidejo.dxf" download>Download the dxf file
+  </a>
+  
+  </figure>
+
+</div>
+
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+  <figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <iframe src="https://college1093.autodesk360.com/shares/public/SH28cd1QT2badd0ea72b8f23eaa9e0b05ada?mode=embed" width="640" height="480" allowfullscreen="true" webkitallowfullscreen="true" mozallowfullscreen="true"  frameborder="0" style="height:30vh; width:auto;"></iframe>
+    <figcaption style="font-size:15px; text-align:center;">My Fusion model of the 3D printed corners</figcaption>
+  </figure>
+<figure style="display:inline-flex; flex-direction:column; align-items:center;gap:20px;">
+  <a id="btn" href="cocrner.stl" download>Download the stl file
+  </a>
+  <a id="btn" href="joleecorner.gcode" download>Download the gcode file
+  </a>
+  </figure>
+
+</div>
+
+
+
+Finally, we have the outer wooden box. For this, I cut out the pieces out of 6mm plywood for a thicker, more solid look. The bottom portion also sticks out so that the bird seed has somewhere to spill out into. I then superglued the pieces together and drilled holes to thread a wire through so that the bird feeder could be hung from a tree. I also made it so that the feeder could be opened to the back (with the door attached with a magnet) for easy access to refill the bird feeder. I also made it so that there was two holes at the edge of the bird feeder so that I could put a stick through it and birds could perch on it!
+<br></br>
+
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="wppd.png" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">The sides of the outer wooden walls of the bird feeder</figcaption>
+</figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;gap:20px;">
+  <a id="btn" href="wooden.dxf" download>Download the dxf file
+  </a>
+  
+  </figure>
+
+</div>
+
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="bottomb.png" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">The sides of the outer wooden walls of the bird feeder</figcaption>
+</figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;gap:20px;">
+  <a id="btn" href="backwood.dxf" download>Download the dxf file
+  </a>
+  
+  </figure>
+
+</div>
+
+Anddddd HERE IS THE FINAL LOOK! Oh yeah!!! Nice!!! So the inside feeder made of acrylic fits perfectly within the wooden feeder. The ESP32-CAM box fits inside that acrylic feeder. It all fits perfectly and closes up nicely! LETS GOOO!!
+
+<br></br>
+
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="z.JPG" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Both the inside and outside feeder</figcaption>
+</figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="qq.JPG" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">The backside of the completed feeder</figcaption>
+</figure>
+
+
+</div>
+
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="f.JPG" style="height:60vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Here's the finished bird feeder!</figcaption>
+</figure>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
 
 
   </details>
 
 
 
-<hr style="border: 1px solid #b33b72;">
+<hr style="border: 1px solid #b33b72;"i>
 <h4>Demo!</h4>
 <div style="display:flex; justify-content:center; align-items:center; gap:20px;">
 <figure style="display:inline-flex; flex-direction:column; align-items:center;">
@@ -1229,6 +1478,27 @@ Anyways, so all the coding was done after this part! And it worked great and jus
    
 </figure>
 
+
+</div>
+
+<hr style="border: 1px solid #b33b72;"i>
+<h4>At the Final Project Fair!</h4>
+
+<div style="display:flex; justify-content:center; align-items:center; gap:30px;">
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="final.JPG" style="height:60vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">The bird feeder at the fair! So awesome</figcaption>
+</figure>
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="finale.JPG" style="height:60vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Me and my bird feeder!</figcaption>
+</figure>
 
 </div>
 
