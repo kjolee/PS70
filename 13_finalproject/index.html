@@ -4,6 +4,7 @@
 <title>Final Project </title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="../style.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
 
 
 <nav class="navbar navbar-expand-sm navbar-dark" style=" color: #EEE7E8;">
@@ -23,7 +24,84 @@
 <div class="textcontainer">
 <p class="margin"></p>
 
-<h3>Final project is in progress!!!!</h3>
+
+<h3>Final Project: joleeBirds Feeder</h3>
+<hr style="border: 1px solid #b33b72;">
+
+For my final project, I designed and built a smart bird feeder that had a motion-activated camera and sent a daily email update of all the birds seen! 
+<hr style="border: 1px solid #b33b72;">
+<h4>Coding</h4>
+After MVP week, I decided to return to my original idea of making a smart bird feeder, instead of sticking with my idea of having the motion-activated levers on my camera. But where would I even begin? I decided to start with the coding portion, as I figured this would take me the longest time to figure out. 
+<br>I decided on the parts I would need: a breadboard (to later be replaced by a solderable bread), a microcontroller, and a motion sensor. For the microcontroller, I was able to use the ESP32-CAM which is able to store code on it and the ESP32-CAM MB which is used to upload the code to the cam. Additionally, I initially started with a PIR motion sensor for the sensor, which measures infrared light radiating from objects. All of these items were readily available in the PS70 stock, so I thankfully did not have to make any special request orders.
+<br></br> To figure out how to use the ESP32-CAM, I utilized several helpful articles from Instructables and RandomNerdTutorials. The first article from Instructables was mostly informational, talking about the pros and cons of the ESP32-CAM and how to prepare Arduino IDE to program it. The second tutorial from RandomNerdTutorials coded the ESP32-CAM to take a photo and display it in a web server, which I thought would be helpful to go through as it was similar to what I wanted it to do.
+<br></br>
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="ins.JPG" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Following the Instructables tutorial "<a href="https://www.instructables.com/How-to-Use-the-ESP32-CAM-for-Beginners/", target="_blank" style="color:#b33b72;">How to Use the ESP32-CAM for Beginners</a>"</figcaption>
+</figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="rnt.JPG" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Following the RandomNerdTutorials tutorial "<a href="https://randomnerdtutorials.com/esp32-cam-take-photo-display-web-server/", target="_blank" style="color:#b33b72;">ESP32-CAM Take Photo and Display in Web Server</a>"</figcaption>
+</figure>
+
+</div>
+For this project, I knew that I wanted for the pictures to be stored online and not directly onto the ESP32-CAM because I worried that the cam would lose storage. To find a solution to this problem, I went back to the PS70 page for <a href="https://nathanmelenbrink.github.io/ps70/09_networking/index.html", target="_blank" style="color:#b33b72;">Radio, Wifi, and Bluetooth (IoT)</a> and discovered that I could use Google Firebase, which is a remote serve option. It also has the ability to build personal webpages or apps, which sounded exactly like what I was planning on doing. To become acquainted with the platform, I followed another RandomNerdTutorial tutorial that demonstrated how to upload pictures from the ESP32-CAM to Firebase. On the Firebase side of things, the tutorial went through how to make a Firebase project, set authentication methods of the app, create a storage bucket (which required me to put my billing information in), change the storage rules, create a web app for the project, and generate the API key for that web app. It was slightly confusing because the Firebase website had slightly changed since the tutorial had been posted, but I still managed to set it up correctly! For the coding part, the tutorial had code that could be copy and pasted, but it went through exactly what the code did. The end product of this tutorial was that my selfie taken by the ESP32-CAM uploaded into my Firebase storage bucket!
+
+<br></br>
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="fire1.png" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Following the RandomNerdTutorials tutorial "<a href="https://randomnerdtutorials.com/esp32-cam-save-picture-firebase-storage/", target="_blank" style="color:#b33b72;">How to Use the ESP32-CAM for Beginners</a>"</figcaption>
+</figure>
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="rnt.JPG" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">Following the RandomNerdTutorials tutorial "<a href="https://randomnerdtutorials.com/esp32-cam-take-photo-display-web-server/", target="_blank" style="color:#b33b72;">ESP32-CAM Save Picture in Firebase Storage</a>"</figcaption>
+</figure>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 </div>
