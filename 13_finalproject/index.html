@@ -6,7 +6,11 @@
 <link href="../style.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
 
-
+<style>
+  pre code span, pre code * {
+    background-color: transparent !important;
+  }
+</style>
 <nav class="navbar navbar-expand-sm navbar-dark" style=" color: #EEE7E8;">
   <div style="align-items: center; justify-content: center;" class="container-fluid">
     <div class="flexrow">
@@ -35,7 +39,10 @@ For my final project, I designed and built a smart bird feeder that had a motion
     <summary style="font-size:20px; color:#b33b72; cursor:pointer; list-style:none;">
         <h4>Coding ▼</h4>
     </summary>
-
+<details style=" padding:10px;">
+    <summary style="font-size:20px; color:#b33b72; cursor:pointer; list-style:none;">
+        <h5>Sensor -> ESP32 CAM -> Firebase Storage ▼</h5>
+    </summary>
 After MVP week, I decided to return to my original idea of making a smart bird feeder, instead of sticking with my idea of having the motion-activated levers on my camera. But where would I even begin? I decided to start with the coding portion, as I figured this would take me the longest time to figure out. 
 <br>I decided on the parts I would need: a breadboard (to later be replaced by a solderable bread), a microcontroller, and a motion sensor. For the microcontroller, I was able to use the ESP32-CAM which is able to store code on it and the ESP32-CAM MB which is used to upload the code to the cam. Additionally, I initially started with a PIR motion sensor for the sensor, which measures infrared light radiating from objects. All of these items were readily available in the PS70 stock, so I thankfully did not have to make any special request orders.
 <br></br> To figure out how to use the ESP32-CAM, I utilized several helpful articles from Instructables and RandomNerdTutorials. The first article from Instructables was mostly informational, talking about the pros and cons of the ESP32-CAM and how to prepare Arduino IDE to program it. The second tutorial from RandomNerdTutorials coded the ESP32-CAM to take a photo and display it in a web server, which I thought would be helpful to go through as it was similar to what I wanted it to do.
@@ -72,17 +79,24 @@ For this project, I knew that I wanted for the pictures to be stored online and 
     <figcaption style="font-size:15px; text-align:center;">Following the RandomNerdTutorials tutorial "<a href="https://randomnerdtutorials.com/esp32-cam-save-picture-firebase-storage/", target="_blank" style="color:#b33b72;">How to Use the ESP32-CAM for Beginners</a>"</figcaption>
 </figure>
 
-<figure style="display:inline-flex; flex-direction:column; align-items:center;">
-    <div style="display:flex;">
-      <img src="rnt.JPG" style="height:30vh; width:auto;">
-      
-    </div>
-    <figcaption style="font-size:15px; text-align:center;">Following the RandomNerdTutorials tutorial "<a href="https://randomnerdtutorials.com/esp32-cam-take-photo-display-web-server/", target="_blank" style="color:#b33b72;">ESP32-CAM Save Picture in Firebase Storage</a>"</figcaption>
-</figure>
 
 </div>
 
-Now, all I had to do was to replicate this idea but make it so that the camera took a picture every time that motion was detected. With the help of Claude, I generated code, modified from the previously-mentioned RandomNerdTutorials code that uploaded pictures to Firebase, to utilize the data picked up by the PIR motion sensor to know when to take a picture on the camera.<br></br> However, I ran into the problem which was that in order to connect the sensor to the ESP32-CAM, I had to detach the CAM from the ESP32-CAM MB since it didn't have additional available pins. Thus, the ESP32-CAM didn't have power now. In order to give power to the ESP32-CAM, I decided to use the 5V power banks in the PS70 classroom and connect it to the CAM by using a Micro USB connector. It worked pretty great, and it was simple to connect and disconnect the power bank from the connector whenever I wanted to. <br></br> Another problem was that I was unable to access Serial Monitor to understand and fix any errors that I encountered, since the ESP32-CAM wouldn't be connected to my computer. Thus, I had Claude implement code that would make the LED on the ESP32-CAM flash a certain number of flashes to indicate the reason for any errors. After a few tweaks and errors, the code finally worked! 
+Now, all I had to do was to replicate this idea but make it so that the camera took a picture every time that motion was detected. With the help of Claude, I generated code, modified from the previously-mentioned RandomNerdTutorials code that uploaded pictures to Firebase, to utilize the data picked up by the PIR motion sensor to know when to take a picture on the camera.<br></br> However, I ran into the problem which was that in order to connect the sensor to the ESP32-CAM, I had to detach the CAM from the ESP32-CAM MB since it didn't have additional available pins. Thus, the ESP32-CAM didn't have power now. In order to give power to the ESP32-CAM, I decided to use the 5V power banks in the PS70 classroom and connect it to the CAM by using a Micro USB connector. It worked pretty great, and it was simple to connect and disconnect the power bank from the connector whenever I wanted to. <br></br> 
+
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="pir.JPG" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">This is what the PIR motion sensor looks like. You can also see the power bank in the background</figcaption>
+</figure>
+
+
+</div>
+Another problem was that I was unable to access Serial Monitor to understand and fix any errors that I encountered, since the ESP32-CAM wouldn't be connected to my computer. Thus, I had Claude implement code that would make the LED on the ESP32-CAM flash a certain number of flashes to indicate the reason for any errors. After a few tweaks and errors, the code finally worked! 
 
 <div style="display:flex; justify-content:center; align-items:center; gap:20px;">
 
@@ -513,16 +527,710 @@ void loop() {
 
 
 </div>
-Then, I implemented it into my original code! It worked pretty smoothly.
+
+Then, I implemented it into my original code! It worked perfectly! This part was done now.
+
+<figure>
+<pre style="background-color:#b33b72; color:#EEE7E8; padding:20px; 
+            border-radius:8px; overflow-y:scroll; height:300px; 
+            font-size:15px;margin-bottom:0;">
+<code style="background-color:transparent;">/*********
+  Rui Santos & Sara Santos - Random Nerd Tutorials
+  Modified to use VL53L0X ToF sensor (Pololu library) instead of PIR
+  Blink error codes: 1=WiFi, 2=Camera, 3=LittleFS, 4=ToF, 5=Firebase
+*********/
+#define ENABLE_USER_AUTH
+#define ENABLE_STORAGE
+#define ENABLE_FS
+
+#include &lt;Arduino.h&gt;
+#include &lt;FirebaseClient.h&gt;
+#include &lt;FS.h&gt;
+#include &lt;LittleFS.h&gt;
+#include &lt;WiFi.h&gt;
+#include &lt;WiFiClientSecure.h&gt;
+#include "esp_camera.h"
+#include &lt;Wire.h&gt;
+#include &lt;VL53L0X.h&gt;
+
+#define WIFI_SSID "MAKERSPACE"
+#define WIFI_PASSWORD "12345678"
+
+#define API_KEY "AIzaSyAyfpE-oMMnIVRrSD816ox12j2KorluEss"
+#define USER_EMAIL "floacyy@gmail.com"
+#define USER_PASSWORD "birdistheword"
+
+#define STORAGE_BUCKET_ID "homebirdalert.firebasestorage.app"
+
+#define FLASH_PIN 4
+#define SDA_PIN 14
+#define SCL_PIN 15
+
+#define MIN_DISTANCE_CM 5
+#define MAX_DISTANCE_CM 120
+#define DETECTION_COOLDOWN_MS 15000
+
+#define PWDN_GPIO_NUM 32
+#define RESET_GPIO_NUM -1
+#define XCLK_GPIO_NUM 0
+#define SIOD_GPIO_NUM 26
+#define SIOC_GPIO_NUM 27
+#define Y9_GPIO_NUM 35
+#define Y8_GPIO_NUM 34
+#define Y7_GPIO_NUM 39
+#define Y6_GPIO_NUM 36
+#define Y5_GPIO_NUM 21
+#define Y4_GPIO_NUM 19
+#define Y3_GPIO_NUM 18
+#define Y2_GPIO_NUM 5
+#define VSYNC_GPIO_NUM 25
+#define HREF_GPIO_NUM 23
+#define PCLK_GPIO_NUM 22
+
+void processData(AsyncResult &aResult);
+void file_operation_callback(File &file, const char *filename, file_operating_mode mode);
+
+File myFile;
+VL53L0X tof;
+
+UserAuth user_auth(API_KEY, USER_EMAIL, USER_PASSWORD, 3000);
+FirebaseApp app;
+WiFiClientSecure ssl_client;
+using AsyncClient = AsyncClientClass;
+AsyncClient aClient(ssl_client);
+Storage storage;
+
+bool taskComplete = false;
+bool motionDetected = false;
+int photoCount = 0;
+unsigned long lastDetectionTime = 0;
+int consecutiveDetections = 0;
+
+char currentLocalPath[32];
+char currentBucketPath[32];
+FileConfig *media_file = nullptr;
+AsyncResult storageResult;
+
+void blinkError(int times) {
+  pinMode(FLASH_PIN, OUTPUT);
+  while (1) {
+    for (int i = 0; i < times; i++) {
+      digitalWrite(FLASH_PIN, HIGH);
+      delay(300);
+      digitalWrite(FLASH_PIN, LOW);
+      delay(300);
+    }
+    delay(1000);
+  }
+}
+
+void blinkSuccess() {
+  pinMode(FLASH_PIN, OUTPUT);
+  for (int i = 0; i < 5; i++) {
+    digitalWrite(FLASH_PIN, HIGH);
+    delay(100);
+    digitalWrite(FLASH_PIN, LOW);
+    delay(100);
+  }
+}
+
+void blinkFirebaseError() {
+  for (int i = 0; i < 5; i++) {
+    digitalWrite(FLASH_PIN, HIGH);
+    delay(300);
+    digitalWrite(FLASH_PIN, LOW);
+    delay(300);
+  }
+  delay(1000);
+}
+
+void initToF() {
+  Wire.begin(SDA_PIN, SCL_PIN);
+
+  if (!tof.init()) {
+    blinkError(4);
+  }
+
+  tof.setTimeout(500);
+  tof.setMeasurementTimingBudget(200000);  // 200ms per reading = 3 readings takes 600ms
+  tof.startContinuous();
+}
+
+void checkToFSensor() {
+  uint16_t distanceMM = tof.readRangeContinuousMillimeters();
+
+  if (tof.timeoutOccurred()) return;
+
+  if (distanceMM == 0 || distanceMM >= 8190) {
+    consecutiveDetections = 0;
+    return;
+  }
+
+  int distanceCM = distanceMM / 10;
+
+  if (distanceCM >= MIN_DISTANCE_CM && distanceCM <= MAX_DISTANCE_CM) {
+    consecutiveDetections++;
+    if (consecutiveDetections >= 3) {
+      motionDetected = true;
+      consecutiveDetections = 0;
+    }
+  } else {
+    consecutiveDetections = 0;
+  }
+}
+
+void capturePhotoSaveLittleFS(void) {
+  camera_fb_t *fb = NULL;
+  for (int i = 0; i < 10; i++) {
+    fb = esp_camera_fb_get();
+    esp_camera_fb_return(fb);
+    fb = NULL;
+  }
+
+  fb = esp_camera_fb_get();
+  if (!fb) {
+    delay(1000);
+    ESP.restart();
+  }
+
+  File file = LittleFS.open(currentLocalPath, FILE_WRITE);
+  if (file) {
+    file.write(fb->buf, fb->len);
+  }
+  file.close();
+  esp_camera_fb_return(fb);
+  delay(100);
+}
+
+void initLittleFS() {
+  if (!LittleFS.begin(true)) {
+    blinkError(3);
+  }
+}
+
+void initWiFi() {
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  unsigned long startAttempt = millis();
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    if (millis() - startAttempt > 30000) {
+      blinkError(1);
+    }
+  }
+}
+
+void initCamera() {
+  camera_config_t config;
+  config.ledc_channel = LEDC_CHANNEL_0;
+  config.ledc_timer = LEDC_TIMER_0;
+  config.pin_d0 = Y2_GPIO_NUM;
+  config.pin_d1 = Y3_GPIO_NUM;
+  config.pin_d2 = Y4_GPIO_NUM;
+  config.pin_d3 = Y5_GPIO_NUM;
+  config.pin_d4 = Y6_GPIO_NUM;
+  config.pin_d5 = Y7_GPIO_NUM;
+  config.pin_d6 = Y8_GPIO_NUM;
+  config.pin_d7 = Y9_GPIO_NUM;
+  config.pin_xclk = XCLK_GPIO_NUM;
+  config.pin_pclk = PCLK_GPIO_NUM;
+  config.pin_vsync = VSYNC_GPIO_NUM;
+  config.pin_href = HREF_GPIO_NUM;
+  config.pin_sccb_sda = SIOD_GPIO_NUM;
+  config.pin_sccb_scl = SIOC_GPIO_NUM;
+  config.pin_pwdn = PWDN_GPIO_NUM;
+  config.pin_reset = RESET_GPIO_NUM;
+  config.xclk_freq_hz = 20000000;
+  config.pixel_format = PIXFORMAT_JPEG;
+  config.grab_mode = CAMERA_GRAB_LATEST;
+
+  if (psramFound()) {
+    config.frame_size = FRAMESIZE_UXGA;
+    config.jpeg_quality = 10;
+    config.fb_count = 1;
+  } else {
+    config.frame_size = FRAMESIZE_SVGA;
+    config.jpeg_quality = 12;
+    config.fb_count = 1;
+  }
+
+  esp_err_t err = esp_camera_init(&config);
+  if (err != ESP_OK) {
+    blinkError(2);
+  }
+}
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(FLASH_PIN, OUTPUT);
+  digitalWrite(FLASH_PIN, LOW);
+
+  initWiFi();
+  initCamera();
+  initLittleFS();
+  initToF();
+
+  Firebase.printf("Firebase Client v%s\n", FIREBASE_CLIENT_VERSION);
+
+  ssl_client.setInsecure();
+  ssl_client.setConnectionTimeout(10000);
+  ssl_client.setHandshakeTimeout(5000);
+  initializeApp(aClient, app, getAuth(user_auth), processData, "🔐 authTask");
+  app.getApp<Storage>(storage);
+
+  // 5 rapid blinks = everything initialized OK
+  blinkSuccess();
+}
+
+void loop() {
+  app.loop();
+  
+  unsigned long now = millis();
+  bool inCooldown = (now - lastDetectionTime) < DETECTION_COOLDOWN_MS;
+
+  // ← ONLY check sensor if NOT in cooldown
+  if (!inCooldown) {
+    checkToFSensor();
+  }
+
+  if (motionDetected && app.ready() && !taskComplete && !inCooldown) {
+    lastDetectionTime = millis();
+    photoCount++;
+    motionDetected = false;
+    taskComplete = true;
+
+    snprintf(currentLocalPath, sizeof(currentLocalPath), "/%d.jpeg", photoCount);
+    snprintf(currentBucketPath, sizeof(currentBucketPath), "/data/%d.jpeg", photoCount);
+
+    if (media_file != nullptr) delete media_file;
+    media_file = new FileConfig(currentLocalPath, file_operation_callback);
+
+    capturePhotoSaveLittleFS();
+    storage.upload(aClient, FirebaseStorage::Parent(STORAGE_BUCKET_ID, currentBucketPath),
+                   getFile(*media_file), "image/jpeg", processData, "⬆️  uploadTask");
+  }
+}
+
+void processData(AsyncResult &aResult) {
+  if (!aResult.isResult()) return;
+
+  if (aResult.isEvent())
+    Firebase.printf("Event task: %s, msg: %s, code: %d\n", aResult.uid().c_str(), aResult.appEvent().message().c_str(), aResult.appEvent().code());
+
+  if (aResult.isDebug())
+    Firebase.printf("Debug task: %s, msg: %s\n", aResult.uid().c_str(), aResult.debug().c_str());
+
+  if (aResult.isError()) {
+    Firebase.printf("Error task: %s, msg: %s, code: %d\n", aResult.uid().c_str(), aResult.error().message().c_str(), aResult.error().code());
+    blinkFirebaseError();  // 5 slow blinks = Firebase error
+    taskComplete = false;
+  }
+
+  if (aResult.uploadProgress()) {
+    Firebase.printf("Uploaded, task: %s, %d%% (%d of %d)\n", aResult.uid().c_str(),
+                    aResult.uploadInfo().progress, aResult.uploadInfo().uploaded, aResult.uploadInfo().total);
+    if (aResult.uploadInfo().total == aResult.uploadInfo().uploaded) {
+      Firebase.printf("Upload complete! ✅\n");
+
+      if (LittleFS.remove(currentLocalPath))
+        Serial.printf("Deleted local file: %s\n", currentLocalPath);
+
+      // 1 long blink = upload success
+      digitalWrite(FLASH_PIN, HIGH);
+      delay(1000);
+      digitalWrite(FLASH_PIN, LOW);
+
+      taskComplete = false;
+    }
+  }
+}
+
+void file_operation_callback(File &file, const char *filename, file_operating_mode mode) {
+  switch (mode) {
+    case file_mode_open_read:
+      myFile = LittleFS.open(filename, "r");
+      break;
+    case file_mode_open_write:
+      myFile = LittleFS.open(filename, "w");
+      break;
+    case file_mode_open_append:
+      myFile = LittleFS.open(filename, "a");
+      break;
+    case file_mode_remove:
+      LittleFS.remove(filename);
+      break;
+    default:
+      break;
+  }
+  file = myFile;
+}
+</code>
+</pre>
+  <figcaption style="font-size:15px; text-align:center;">
+        Here is the final code for the ToF to ESP32-CAM to Firebase!
+    </figcaption>
+</figure>
+
+</details>
+
+<details style=" padding:10px;">
+    <summary style="font-size:20px; color:#b33b72; cursor:pointer; list-style:none;">
+        <h5>Firebase Cloud Functions ▼</h5>
+    </summary>
+
+Next up was figuring out how to have the pictures in my Firebase storage bucket be identified and sent to my email. I also wanted the photos that didn't have birds in them to be automatically deleted from the storage bucket to save space. This was something totally out of my league in terms of coding, so I consulted Claude and essentially vibe-coded this entire portion. I ran into many errors, but after several hours of debugging, the finished product was exactly what I had wanted.<br></br> The first function named "identifyBird" basically sends the pictures to Google Gemini automatically, giving it a prompt to analyze each photo and return whether there was a bird in it, what species it was, how confident it was in that ID, and whether the photo was actually good enough to keep. If Gemini comes back saying there was no bird, couldn't identify the species, or was only low confidence, the function just deleted the photo from Cloud Storage entirely and moved on. But if everything checked out, being that there was a real bird, known species, and at least medium confidence, it saved a record into Firestore with the species name, confidence level, the date, and a reference to where the photo lived in storage. 
+<br></br>The second function "dailyBirdEmail" is a scheduled job that goes off automatically every night at 9:59 PM Eastern time, grabs all of that day's Firestore records, groups them by species, figures out how many times each bird was spotted, puts a clickable download link for the best photo of each species, and then assembles and sends a nicely formatted summary email styled kind of like an eBird Rare Bird alert. That is an email I receive everyday that lists the rare birds found in the county I designate it to, so right now I have it designated to Suffolk County because that is the county Harvard is in. Then, it gives me the coordinates and eBird checklist comments for birds deemed rare.
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="jo.png" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">The email generated by this "dailyBirdEmail" function.</figcaption>
+</figure>
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="e.png" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">The inspiration for the email formatting: the eBird Rare Bird Alert emails. </figcaption>
+</figure>
+</div>
+The third function "sendBirdEmailNow" is essentially just a manual trigger for that same email, exposed as an HTTP endpoint so I could hit it from a browser I wanted to test it or resend a report for a specific date. It's also protected behind a simple API key so nobody else could just spam it.<br></br>
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <div style="display:flex;">
+      <img src="ss.jpeg" style="height:30vh; width:auto;">
+      
+    </div>
+    <figcaption style="font-size:15px; text-align:center;">You basically just have to type in the url into a browser, and it shows a message like this. It also sends an email with it.</figcaption>
+</figure>
+</div>
+
+In order to upload this code into Firebase, I had have all the code available in folders on my computer. Then, I used Terminal (though you can use Sublime Text or VSCode) to run the functions into Firebase Cloud Functions. I also had to designate my email for sending the emails, the email I wanted to receive the emails, my API key for Gemini, my Firebase storage bucket information, and my Firebase API Key. To be honest, this part of the project did not require as much brainpower besides for debugging and trying to understand what Claude was coding, but it was really cool to try vibe-coding to this extent for the first time and understand the capabilities of AI in coding. It has definitely improved from when I used to upload algebra homework problems into ChatGPT in high school to try to understand them lol.
+<br></br>
+<figure>
+<pre style="background-color:#b33b72; color:#EEE7E8; padding:20px; 
+            border-radius:8px; overflow-y:scroll; height:300px; 
+            font-size:15px;margin-bottom:0;">
+<code style="background-color:transparent;">"use strict";
+
+const { onObjectFinalized } = require("firebase-functions/v2/storage");
+const { onSchedule }        = require("firebase-functions/v2/scheduler");
+const { onRequest }         = require("firebase-functions/v2/https");
+const admin                 = require("firebase-admin");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const nodemailer            = require("nodemailer");
+
+admin.initializeApp();
+const db = admin.firestore();
+db.settings({ databaseId: "birdistheword" });
+
+// ─────────────────────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────────────────────
+
+function todayString() {
+  return new Date().toISOString().split("T")[0];
+}
+
+async function analyzeImageWithGemini(imageBuffer, mimeType) {
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+  const prompt = `Analyze this image. Reply with ONLY raw JSON — no markdown, no code fences, just the JSON object.
+
+{
+  "hasBird": true or false,
+  "species": "common English name" or null,
+  "confidence": "high" or "medium" or "low",
+  "goodQuality": true or false,
+  "reason": "one sentence"
+}
+
+Rules:
+- hasBird: true ONLY if a bird is clearly visible
+- species: bird's common English name, or null if no bird / unidentifiable
+- confidence: how confident you are in the species ID
+- goodQuality: true only if image is sharp, well-lit, bird is prominent, and species is clearly identifiable
+- reason: brief explanation of your decision`;
+
+  const result = await model.generateContent([
+    {
+      inlineData: {
+        data: imageBuffer.toString("base64"),
+        mimeType: mimeType || "image/jpeg",
+      },
+    },
+    prompt,
+  ]);
+
+  let text = result.response.text().trim();
+  text = text.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
+  return JSON.parse(text);
+}
+
+/** Fetches today's Firestore records, builds plain-style eBird-like email, and sends it */
+async function sendSummaryEmail(date) {
+  // ── 1. Fetch all detections for the requested date ──────────────────────
+  const snapshot = await db
+    .collection("birdDetections")
+    .where("date", "==", date)
+    .get();
+
+  if (snapshot.empty) {
+    return { success: false, message: `No bird detections found for ${date}` };
+  }
+
+  // ── 2. Group by species — keep the best-confidence photo per species ──────
+  const speciesMap = {};
+  snapshot.forEach((doc) => {
+    const d = doc.data();
+    if (!speciesMap[d.species]) {
+      speciesMap[d.species] = { rep: d, count: 1 };
+    } else {
+      speciesMap[d.species].count++;
+      if (
+        d.confidence === "high" &&
+        speciesMap[d.species].rep.confidence !== "high"
+      ) {
+        speciesMap[d.species].rep = d;
+      }
+    }
+  });
+
+  const speciesList  = Object.keys(speciesMap).sort();
+  const totalSpecies = speciesList.length;
+  const totalPhotos  = snapshot.size;
+
+  // ── 3. Build the species summary block (top of email) ─────────────────────
+  let summaryBlock = "";
+  for (const species of speciesList) {
+    const { count } = speciesMap[species];
+    summaryBlock += `- ${species} (${count} ${count === 1 ? "report" : "reports"})<br>\n`;
+  }
+
+  // ── 4. Build the per-species detail blocks (bottom of email) ──────────────
+  let detailsBlock = "";
+
+  for (const species of speciesList) {
+    const { rep, count } = speciesMap[species];
+
+    let photoLine = "- Photo: unavailable";
+
+    try {
+      const fileBucket = admin.storage().bucket(rep.bucket);
+      const file       = fileBucket.file(rep.photoPath);
+      const [metadata] = await file.getMetadata();
+      const token      = metadata.metadata?.firebaseStorageDownloadTokens;
+
+      if (!token) throw new Error(`No download token on file: ${rep.photoPath}`);
+
+      const encodedPath = encodeURIComponent(rep.photoPath);
+      const photoUrl    = `https://firebasestorage.googleapis.com/v0/b/${rep.bucket}/o/${encodedPath}?alt=media&token=${token}`;
+
+      photoLine = `- Photo: <a href="${photoUrl}">${photoUrl}</a>`;
+    } catch (err) {
+      console.error(`PHOTO ERROR — species: ${species} | path: ${rep.photoPath} | error: ${err.message}`);
+      photoLine = `- Photo: unavailable (${err.message})`;
+    }
+
+    detailsBlock += `
+<p style="margin:0 0 14px 0;">
+  ${species} (${count}) CONFIRMED<br>
+  - Sightings today: ${count}<br>
+  - ID confidence: ${rep.confidence}<br>
+  ${photoLine}
+</p>`;
+  }
+
+  // ── 5. Assemble the full email in plain eBird style ───────────────────────
+  const html = `
+<div style="font-family:Arial,sans-serif;font-size:13px;color:#000;max-width:680px;line-height:1.5;">
+
+  <p style="margin:0 0 10px 0;"><strong>*** Species Summary:</strong></p>
+
+  <p style="margin:0 0 16px 0;">
+    ${summaryBlock}
+  </p>
+
+  <p style="margin:0 0 16px 0;">----------------------------------------</p>
+
+  <p style="margin:0 0 16px 0;">
+    Thank you for subscribing to [joleeBird Alert] ${date} Sweet Home Bird Alert.
+    The report below shows observations captured by your backyard bird camera.
+    Total quality photos accepted today: ${totalPhotos}.
+  </p>
+
+  ${detailsBlock}
+
+</div>`;
+
+  // ── 6. Send email ─────────────────────────────────────────────────────────
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD,
+    },
+  });
+
+  await transporter.sendMail({
+    from:    `"joleeBird Alert" <${process.env.EMAIL_USER}>`,
+    to:       process.env.EMAIL_TO,
+    subject: `[joleeBird Alert] ${date} Sweet Home Bird Alert <daily>`,
+    html,
+  });
+
+  console.log(`Email sent: ${totalSpecies} species for ${date}`);
+  return { success: true, date, totalSpecies, totalPhotos, species: speciesList };
+}
+
+// ═════════════════════════════════════════════════════════════
+// FUNCTION 1 — Runs every time a photo is uploaded to Storage
+// ═════════════════════════════════════════════════════════════
+exports.identifyBird = onObjectFinalized(
+  {
+    region:         "us-east1",
+    timeoutSeconds: 120,
+    memory:         "512MiB",
+  },
+  async (event) => {
+    const { name: filePath, contentType, bucket: bucketName } = event.data;
+
+    if (!contentType?.startsWith("image/")) {
+      console.log("Skipping non-image:", filePath);
+      return;
+    }
+
+    console.log("New image uploaded:", filePath);
+    const bucket = admin.storage().bucket(bucketName);
+    const file   = bucket.file(filePath);
+
+    let analysis;
+    try {
+      const [buffer] = await file.download();
+      analysis = await analyzeImageWithGemini(buffer, contentType);
+      console.log("Gemini result:", JSON.stringify(analysis));
+    } catch (err) {
+      console.error("Analysis failed — deleting photo:", err.message);
+      await file.delete().catch(() => {});
+      return;
+    }
+
+    const keepPhoto =
+      analysis.hasBird     === true &&
+      analysis.species     !== null &&
+      analysis.confidence  !== "low";
+
+    if (!keepPhoto) {
+      await file.delete();
+      console.log(`❌ Deleted (${analysis.reason}): ${filePath}`);
+      return;
+    }
+
+    await db.collection("birdDetections").add({
+      date:       todayString(),
+      species:    analysis.species,
+      confidence: analysis.confidence,
+      photoPath:  filePath,
+      bucket:     bucketName,
+      timestamp:  admin.firestore.FieldValue.serverTimestamp(),
+    });
+
+    console.log(`✅ Saved: ${analysis.species} (${analysis.confidence}) — ${filePath}`);
+  }
+);
 
 
+// ═════════════════════════════════════════════════════════════
+// FUNCTION 2 — Sends summary email automatically at end of day
+// ═════════════════════════════════════════════════════════════
+exports.dailyBirdEmail = onSchedule(
+  {
+    schedule:       "59 21 * * *",
+    timeZone:       "America/New_York",
+    region:         "us-east1",
+    memory:         "512MiB",
+    timeoutSeconds: 300,
+  },
+  async () => {
+    const result = await sendSummaryEmail(todayString());
+    console.log("Scheduled email result:", JSON.stringify(result));
+  }
+);
+
+
+// ═════════════════════════════════════════════════════════════
+// FUNCTION 3 — Lets you trigger the email manually anytime
+// ═════════════════════════════════════════════════════════════
+exports.sendBirdEmailNow = onRequest(
+  {
+    region:         "us-east1",
+    memory:         "512MiB",
+    timeoutSeconds: 300,
+  },
+  async (req, res) => {
+    const providedKey = req.query.key ?? req.headers["x-api-key"];
+    if (!process.env.TEST_API_KEY || providedKey !== process.env.TEST_API_KEY) {
+      res.status(401).json({
+        error: "Unauthorized. Call with ?key=YOUR_TEST_API_KEY",
+      });
+      return;
+    }
+
+    const date = req.query.date ?? todayString();
+
+    try {
+      const result = await sendSummaryEmail(date);
+      res.json(result);
+    } catch (err) {
+      console.error("Error sending email:", err);
+      res.status(500).json({ error: err.message });
+    }
+  }
+);
+
+</code>
+</pre>
+  <figcaption style="font-size:15px; text-align:center;">
+        My final code saved as index.js on my Mac. There are some other pieces of code too but those have confidential information such as my API keys!
+    </figcaption>
+</figure>
+
+Anyways, so all the coding was done after this part! And it worked great and just the way I wanted. YAYYYYY!
+
+
+</details>
 
 </details>
 <hr style="border: 1px solid #b33b72;">
 
+<details style=" padding:10px;">
+    <summary style="font-size:20px; color:#b33b72; cursor:pointer; list-style:none;">
+        <h4>Hardware ▼</h4>
+    </summary>
+
+    Sooo
+
+
+  </details>
 
 
 
+<hr style="border: 1px solid #b33b72;">
+<h4>Demo!</h4>
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+<figure style="display:inline-flex; flex-direction:column; align-items:center;">
+    <video style="height:60vh; width:auto;" controls>
+        <source src="joleeBirds Feeder.mp4" type="video/mp4">
+    </video>
+   
+</figure>
+
+
+</div>
 
 
 
